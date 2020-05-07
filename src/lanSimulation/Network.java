@@ -348,11 +348,7 @@ public class Network {
 						title = document.message_.substring(startPos + 6, endPos);
 					}
 					;
-					report.write("\tAccounting -- author = '");
-					report.write(author);
-					report.write("' -- title = '");
-					report.write(title);
-					report.write("'\n");
+					writeAccounting(report, author, title);
 					report.write(">>> Postscript job delivered.\n\n");
 					report.flush();
 				} else {
@@ -361,11 +357,7 @@ public class Network {
 						author = document.message_.substring(8, 16);
 					}
 					;
-					report.write("\tAccounting -- author = '");
-					report.write(author);
-					report.write("' -- title = '");
-					report.write(title);
-					report.write("'\n");
+					writeAccounting(report, author, title);
 					report.write(">>> ASCII Print job delivered.\n\n");
 					report.flush();
 				}
@@ -385,6 +377,14 @@ public class Network {
 			;
 			return false;
 		}
+	}
+
+	private void writeAccounting(Writer report, String author, String title) throws IOException {
+		report.write("\tAccounting -- author = '");
+		report.write(author);
+		report.write("' -- title = '");
+		report.write(title);
+		report.write("'\n");
 	}
 
 	/**
