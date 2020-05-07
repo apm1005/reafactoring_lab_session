@@ -323,30 +323,13 @@ public class Network {
 	private boolean printDocument(Node printer, Packet document, Writer report) {
 		String author = "Unknown";
 		String title = "Untitled";
-		int startPos = 0, endPos = 0;
 
 		if (printer.type_ == Node.PRINTER) {
 			try {
 				if (document.message_.startsWith("!PS")) {
-					startPos = document.message_.indexOf("author:");
-					if (startPos >= 0) {
-						endPos = document.message_.indexOf(".", startPos + 7);
-						if (endPos < 0) {
-							endPos = document.message_.length();
-						}
-						;
-						author = document.message_.substring(startPos + 7, endPos);
-					}
+					author = findText(document, author, "author:", 7);
 					;
-					startPos = document.message_.indexOf("title:");
-					if (startPos >= 0) {
-						endPos = document.message_.indexOf(".", startPos + 6);
-						if (endPos < 0) {
-							endPos = document.message_.length();
-						}
-						;
-						title = document.message_.substring(startPos + 6, endPos);
-					}
+					title = findText(document, title, "title:", 6);
 					;
 					writeAccounting(report, author, title);
 					report.write(">>> Postscript job delivered.\n\n");
@@ -377,6 +360,19 @@ public class Network {
 			;
 			return false;
 		}
+	}
+
+	private String findText(Packet document, String result, String header, int offset) {
+		int startPos = document.message_.indexOf(header);
+		int endPos;
+		if (startPos >= 0) {
+			endPos = document.message_.indexOf(".", startPos + offset);
+			if (endPos < 0) {
+				endPos = document.message_.length();
+			}
+			result = document.message_.substring(startPos + offset, endPos);
+		}
+		return result;
 	}
 
 	private void writeAccounting(Writer report, String author, String title) throws IOException {
