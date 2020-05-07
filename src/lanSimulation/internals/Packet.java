@@ -41,9 +41,7 @@ public class Packet {
 	 * Construct a <em>Packet</em> with given #message and #destination.
 	 */
 	public Packet(String message, String destination) {
-		message_ = message;
-		origin_ = "";
-		destination_ = destination;
+		this(message, "", destination);
 	}
 
 	/**
