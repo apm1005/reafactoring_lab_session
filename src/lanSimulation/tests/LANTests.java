@@ -69,7 +69,7 @@ public class LANTests extends TestCase {
 			if (f1.available() != f2.available()) {
 				return false;
 			} // length of files is different
-			while ((b1 != -1) & (b2 != -1)) {
+			while ((b1 != -1) && (b2 != -1)) {
 				b1 = f1.read();
 				b2 = f2.read();
 				if (b1 != b2) {
@@ -77,7 +77,7 @@ public class LANTests extends TestCase {
 				} // discovered one diferring character
 			}
 			;
-			if ((b1 == -1) & (b2 == -1)) {
+			if ((b1 == -1) && (b2 == -1)) {
 				return true; // reached both end of files
 			} else {
 				return false; // one end of file not reached

@@ -59,11 +59,11 @@ public class Node {
 	/**
 	 * Construct a <em>Node</em> with given #type and #name.
 	 * <p>
-	 * <strong>Precondition:</strong> (type >= NODE) & (type <= PRINTER);
+	 * <strong>Precondition:</strong> (type >= NODE) && (type <= PRINTER);
 	 * </p>
 	 */
 	public Node(byte type, String name) {
-		assert (type >= NODE) & (type <= PRINTER);
+		assert (type >= NODE) && (type <= PRINTER);
 		type_ = type;
 		name_ = name;
 		nextNode_ = null;
@@ -73,11 +73,11 @@ public class Node {
 	 * Construct a <em>Node</em> with given #type and #name, and which is linked to
 	 * #nextNode.
 	 * <p>
-	 * <strong>Precondition:</strong> (type >= NODE) & (type <= PRINTER);
+	 * <strong>Precondition:</strong> (type >= NODE) && (type <= PRINTER);
 	 * </p>
 	 */
 	public Node(byte type, String name, Node nextNode) {
-		assert (type >= NODE) & (type <= PRINTER);
+		assert (type >= NODE) && (type <= PRINTER);
 		type_ = type;
 		name_ = name;
 		nextNode_ = nextNode;

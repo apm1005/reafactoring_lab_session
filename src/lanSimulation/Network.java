@@ -49,7 +49,7 @@ public class Network {
 	/**
 	 * Construct a <em>Network</em> suitable for holding #size Workstations.
 	 * <p>
-	 * <strong>Postcondition:</strong>(result.isInitialized()) & (!
+	 * <strong>Postcondition:</strong>(result.isInitialized()) && (!
 	 * result.consistentNetwork());
 	 * </p>
 	 */
@@ -249,7 +249,7 @@ public class Network {
 	 */
 	public boolean requestWorkstationPrintsDocument(String workstation, String document, String printer,
 			Writer report) {
-		assert consistentNetwork() & hasWorkstation(workstation);
+		assert consistentNetwork() && hasWorkstation(workstation);
 
 		try {
 			report.write("'");
@@ -273,7 +273,7 @@ public class Network {
 		startNode.write(report, false);
 		;
 		currentNode = startNode.nextNode_;
-		while ((!packet.destination_.equals(currentNode.name_)) & (!packet.origin_.equals(currentNode.name_))) {
+		while ((!packet.destination_.equals(currentNode.name_)) && (!packet.origin_.equals(currentNode.name_))) {
 			currentNode.write(report, false);
 			;
 			currentNode = currentNode.nextNode_;
