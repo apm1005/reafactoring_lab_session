@@ -331,8 +331,7 @@ public class Network {
 					;
 					title = findText(document, title, "title:", 6);
 					;
-					writeAccounting(report, author, title);
-					report.write(">>> Postscript job delivered.\n\n");
+					writeAccounting(report, author, title, "Postscript");
 					report.flush();
 				} else {
 					title = "ASCII DOCUMENT";
@@ -340,8 +339,7 @@ public class Network {
 						author = document.message_.substring(8, 16);
 					}
 					;
-					writeAccounting(report, author, title);
-					report.write(">>> ASCII Print job delivered.\n\n");
+					writeAccounting(report, author, title, "ASCII Print");
 					report.flush();
 				}
 				;
@@ -375,12 +373,13 @@ public class Network {
 		return result;
 	}
 
-	private void writeAccounting(Writer report, String author, String title) throws IOException {
+	private void writeAccounting(Writer report, String author, String title, String job) throws IOException {
 		report.write("\tAccounting -- author = '");
 		report.write(author);
 		report.write("' -- title = '");
 		report.write(title);
 		report.write("'\n");
+		report.write(">>> " + job + " job delivered.\n\n");
 	}
 
 	/**
