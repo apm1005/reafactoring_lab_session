@@ -14,3 +14,8 @@ hs_err_pid*
 #
 /.classpath
 /.project
+/.idea
+/.metadata
+/.scannerwork
+/.settings
+/sonar
