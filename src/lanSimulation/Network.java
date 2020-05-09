@@ -164,7 +164,7 @@ public class Network {
 			if (currentNode.type_ == Node.PRINTER) {
 				printersFound++;
 			}
-			currentNode = currentNode.nextNode_;
+			currentNode = send(currentNode);
 		}
 		if (currentNode != firstNode_) {
 			return false;
@@ -367,8 +367,13 @@ public class Network {
 				currentNode.toXML(buf);
 			}
 			buf.append(nodeSeparator);
-			currentNode = currentNode.nextNode_;
+			currentNode = send(currentNode);
 		} while (currentNode != firstNode_);
+	}
+
+	private Node send(Node currentNode) {
+		currentNode = currentNode.nextNode_;
+		return currentNode;
 	}
 
 	private boolean atDestination(Node currentNode, Packet packet) {
