@@ -142,11 +142,9 @@ public class Network {
 		if (workstations_.isEmpty()) {
 			return false;
 		}
-		;
 		if (firstNode_ == null) {
 			return false;
 		}
-		;
 		// verify whether all registered workstations are indeed workstations
 		iter = workstations_.elements();
 		while (iter.hasMoreElements()) {
@@ -154,9 +152,7 @@ public class Network {
 			if (currentNode.type_ != Node.WORKSTATION) {
 				return false;
 			}
-			;
 		}
-		;
 		// enumerate the token ring, verifying whether all workstations are registered
 		// also count the number of printers and see whether the ring is circular
 		currentNode = firstNode_;
@@ -165,26 +161,23 @@ public class Network {
 			if (currentNode.type_ == Node.WORKSTATION) {
 				workstationsFound++;
 			}
-			;
 			if (currentNode.type_ == Node.PRINTER) {
 				printersFound++;
 			}
-			;
 			currentNode = currentNode.nextNode_;
 		}
-		;
 		if (currentNode != firstNode_) {
 			return false;
 		}
-		;// not circular
+		// not circular
 		if (printersFound == 0) {
 			return false;
 		}
-		;// does not contain a printer
+		// does not contain a printer
 		if (workstationsFound != workstations_.size()) {
 			return false;
 		}
-		; // not all workstations are registered
+		// not all workstations are registered
 		// all verifications succeedeed
 		return true;
 	}
@@ -210,7 +203,6 @@ public class Network {
 		} catch (IOException exc) {
 			// just ignore
 		}
-		;
 
 		Node currentNode = firstNode_;
 		Packet packet = new Packet("BROADCAST", firstNode_.name_, firstNode_.name_);
@@ -223,7 +215,6 @@ public class Network {
 		} catch (IOException exc) {
 			// just ignore
 		}
-		;
 		return true;
 	}
 
@@ -260,8 +251,6 @@ public class Network {
 		} catch (IOException exc) {
 			// just ignore
 		}
-		;
-
 		boolean result = false;
 		Node startNode, currentNode;
 		Packet packet = new Packet(document, workstation, printer);
@@ -269,13 +258,10 @@ public class Network {
 		startNode = (Node) workstations_.get(workstation);
 
 		startNode.write(report, false);
-		;
 		currentNode = startNode.nextNode_;
 		while ((!packet.destination_.equals(currentNode.name_)) && (!packet.origin_.equals(currentNode.name_))) {
 			currentNode = writeAndFindNext(report, currentNode, false);
 		}
-		;
-
 		if (packet.destination_.equals(currentNode.name_)) {
 			result = printDocument(currentNode, packet, report);
 		} else {
@@ -285,7 +271,6 @@ public class Network {
 			} catch (IOException exc) {
 				// just ignore
 			}
-			;
 			result = false;
 		}
 
@@ -300,9 +285,7 @@ public class Network {
 			try {
 				if (document.message_.startsWith("!PS")) {
 					author = findText(document, author, "author:", 7);
-					;
 					title = findText(document, title, "title:", 6);
-					;
 					writeAccounting(report, author, title, "Postscript");
 					report.flush();
 				} else {
@@ -310,15 +293,12 @@ public class Network {
 					if (document.message_.length() >= 16) {
 						author = document.message_.substring(8, 16);
 					}
-					;
 					writeAccounting(report, author, title, "ASCII Print");
 					report.flush();
 				}
-				;
 			} catch (IOException exc) {
 				// just ignore
 			}
-			;
 			return true;
 		} else {
 			try {
@@ -327,7 +307,6 @@ public class Network {
 			} catch (IOException exc) {
 				// just ignore
 			}
-			;
 			return false;
 		}
 	}
@@ -383,27 +362,25 @@ public class Network {
 		Node currentNode = firstNode_;
 		do {
 			switch (currentNode.type_) {
-			case Node.NODE:
-				buf.append("Node ");
-				buf.append(currentNode.name_);
-				buf.append(" [Node]");
-				break;
-			case Node.WORKSTATION:
-				buf.append("Workstation ");
-				buf.append(currentNode.name_);
-				buf.append(" [Workstation]");
-				break;
-			case Node.PRINTER:
-				buf.append("Printer ");
-				buf.append(currentNode.name_);
-				buf.append(" [Printer]");
-				break;
-			default:
-				buf.append("(Unexpected)");
-				;
-				break;
+				case Node.NODE:
+					buf.append("Node ");
+					buf.append(currentNode.name_);
+					buf.append(" [Node]");
+					break;
+				case Node.WORKSTATION:
+					buf.append("Workstation ");
+					buf.append(currentNode.name_);
+					buf.append(" [Workstation]");
+					break;
+				case Node.PRINTER:
+					buf.append("Printer ");
+					buf.append(currentNode.name_);
+					buf.append(" [Printer]");
+					break;
+				default:
+					buf.append("(Unexpected)");
+					break;
 			}
-			;
 			buf.append(" -> ");
 			currentNode = currentNode.nextNode_;
 		} while (currentNode != firstNode_);
@@ -425,27 +402,25 @@ public class Network {
 		do {
 			buf.append("\n\t<LI> ");
 			switch (currentNode.type_) {
-			case Node.NODE:
-				buf.append("Node ");
-				buf.append(currentNode.name_);
-				buf.append(" [Node]");
-				break;
-			case Node.WORKSTATION:
-				buf.append("Workstation ");
-				buf.append(currentNode.name_);
-				buf.append(" [Workstation]");
-				break;
-			case Node.PRINTER:
-				buf.append("Printer ");
-				buf.append(currentNode.name_);
-				buf.append(" [Printer]");
-				break;
-			default:
-				buf.append("(Unexpected)");
-				;
-				break;
+				case Node.NODE:
+					buf.append("Node ");
+					buf.append(currentNode.name_);
+					buf.append(" [Node]");
+					break;
+				case Node.WORKSTATION:
+					buf.append("Workstation ");
+					buf.append(currentNode.name_);
+					buf.append(" [Workstation]");
+					break;
+				case Node.PRINTER:
+					buf.append("Printer ");
+					buf.append(currentNode.name_);
+					buf.append(" [Printer]");
+					break;
+				default:
+					buf.append("(Unexpected)");
+					break;
 			}
-			;
 			buf.append(" </LI>");
 			currentNode = currentNode.nextNode_;
 		} while (currentNode != firstNode_);
@@ -466,27 +441,25 @@ public class Network {
 		do {
 			buf.append("\n\t");
 			switch (currentNode.type_) {
-			case Node.NODE:
-				buf.append("<node>");
-				buf.append(currentNode.name_);
-				buf.append("</node>");
-				break;
-			case Node.WORKSTATION:
-				buf.append("<workstation>");
-				buf.append(currentNode.name_);
-				buf.append("</workstation>");
-				break;
-			case Node.PRINTER:
-				buf.append("<printer>");
-				buf.append(currentNode.name_);
-				buf.append("</printer>");
-				break;
-			default:
-				buf.append("<unknown></unknown>");
-				;
-				break;
+				case Node.NODE:
+					buf.append("<node>");
+					buf.append(currentNode.name_);
+					buf.append("</node>");
+					break;
+				case Node.WORKSTATION:
+					buf.append("<workstation>");
+					buf.append(currentNode.name_);
+					buf.append("</workstation>");
+					break;
+				case Node.PRINTER:
+					buf.append("<printer>");
+					buf.append(currentNode.name_);
+					buf.append("</printer>");
+					break;
+				default:
+					buf.append("<unknown></unknown>");
+					break;
 			}
-			;
 			currentNode = currentNode.nextNode_;
 		} while (currentNode != firstNode_);
 		buf.append("\n</network>");

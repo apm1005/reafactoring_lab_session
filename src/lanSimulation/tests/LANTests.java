@@ -57,14 +57,11 @@ public class LANTests extends TestCase {
 					f1.close();
 				} catch (IOException exc) {
 				}
-				;
 				return false; // file 2 does not exist
 			}
 		} catch (FileNotFoundException f1exc) {
 			return false; // file 1 does not exist
 		}
-		;
-
 		try {
 			if (f1.available() != f2.available()) {
 				return false;
@@ -76,7 +73,6 @@ public class LANTests extends TestCase {
 					return false;
 				} // discovered one diferring character
 			}
-			;
 			if ((b1 == -1) && (b2 == -1)) {
 				return true; // reached both end of files
 			} else {
@@ -89,12 +85,10 @@ public class LANTests extends TestCase {
 				f1.close();
 			} catch (IOException exc) {
 			}
-			;
 			try {
 				f2.close();
 			} catch (IOException exc) {
 			}
-			;
 		}
 	}
 
@@ -116,17 +110,14 @@ public class LANTests extends TestCase {
 							f1.close();
 						} catch (IOException exc) {
 						}
-						;
 						try {
 							f2.close();
 						} catch (IOException exc) {
 						}
-						;
 						try {
 							f3.close();
 						} catch (IOException exc) {
 						}
-						;
 						return;
 					}
 				} catch (IOException f3exc) {
@@ -134,12 +125,10 @@ public class LANTests extends TestCase {
 						f1.close();
 					} catch (IOException exc) {
 					}
-					;
 					try {
 						f2.close();
 					} catch (IOException exc) {
 					}
-					;
 					return;
 				}
 			} catch (IOException f2exc) {
@@ -147,13 +136,11 @@ public class LANTests extends TestCase {
 					f1.close();
 				} catch (IOException exc) {
 				}
-				;
 				return;
 			}
 		} catch (IOException f1exc) {
 			return;
 		}
-		;
 
 		try {
 			f1.write("aaa");
@@ -166,22 +153,18 @@ public class LANTests extends TestCase {
 				f1.close();
 			} catch (IOException exc) {
 			}
-			;
 			try {
 				f2.close();
 			} catch (IOException exc) {
 			}
-			;
 			try {
 				f3.close();
 			} catch (IOException exc) {
 			}
-			;
 			try {
 				f4.close();
 			} catch (IOException exc) {
 			}
-			;
 		}
 
 		assertTrue("equals fName1 to fName2 ", compareFiles(fName1, fName2));
@@ -257,7 +240,6 @@ public class LANTests extends TestCase {
 			assertTrue("Could not create '" + generateOutputFName + "'", false);
 			return;
 		}
-		;
 
 		try {
 			buf.append("---------------------------------ASCII------------------------------------------\n");
@@ -288,9 +270,7 @@ public class LANTests extends TestCase {
 				generateOutput.close();
 			} catch (IOException exc) {
 			}
-			;
 		}
-		;
 		assertTrue("Generated output is not as expected ", compareFiles(generateOutputFName, expectedOutputFName));
 	}
 

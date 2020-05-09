@@ -104,7 +104,6 @@ public class LANSimulation {
 		} catch (AssertionError e1) {
 			System.out.println("exception (as expected);");
 		}
-		;
 
 		System.out.print("BROADCAST REQUEST: ");
 		System.out.print(network.requestBroadcast(report));
@@ -128,7 +127,6 @@ public class LANSimulation {
 			if (args.length > 1) {
 				nrOfIters = new Integer(args[1]);
 			}
-			;
 
 			for (int i = 0; i < nrOfIters.intValue(); i++) {
 				simulate();
