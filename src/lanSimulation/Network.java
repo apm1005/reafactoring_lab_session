@@ -78,10 +78,10 @@ public class Network {
 	public static Network DefaultExample() {
 		Network network = new Network(2);
 
-		Node wsFilip = new Node(Node.WORKSTATION, "Filip");
-		Node n1 = new Node(Node.NODE, "n1");
-		Node wsHans = new Node(Node.WORKSTATION, "Hans");
-		Node prAndy = new Node(Node.PRINTER, "Andy");
+		Node wsFilip = new Node(NodeType.WORKSTATION, "Filip");
+		Node n1 = new Node(NodeType.NODE, "n1");
+		Node wsHans = new Node(NodeType.WORKSTATION, "Hans");
+		Node prAndy = new Node(NodeType.PRINTER, "Andy");
 
 		wsFilip.nextNode_ = n1;
 		n1.nextNode_ = wsHans;
@@ -119,7 +119,7 @@ public class Network {
 		if (n == null) {
 			return false;
 		} else {
-			return n.type_ == Node.WORKSTATION;
+			return n.type_ == NodeType.WORKSTATION;
 		}
 	};
 
@@ -149,7 +149,7 @@ public class Network {
 		iter = workstations_.elements();
 		while (iter.hasMoreElements()) {
 			currentNode = iter.nextElement();
-			if (currentNode.type_ != Node.WORKSTATION) {
+			if (currentNode.type_ != NodeType.WORKSTATION) {
 				return false;
 			}
 		}
@@ -158,10 +158,10 @@ public class Network {
 		currentNode = firstNode_;
 		while (!encountered.containsKey(currentNode.name_)) {
 			encountered.put(currentNode.name_, currentNode);
-			if (currentNode.type_ == Node.WORKSTATION) {
+			if (currentNode.type_ == NodeType.WORKSTATION) {
 				workstationsFound++;
 			}
-			if (currentNode.type_ == Node.PRINTER) {
+			if (currentNode.type_ == NodeType.PRINTER) {
 				printersFound++;
 			}
 			currentNode = send(currentNode);

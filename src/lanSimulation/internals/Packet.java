@@ -62,7 +62,7 @@ public class Packet {
 		String author = "Unknown";
 		String title = "Untitled";
 	
-		if (printer.type_ == Node.PRINTER) {
+		if (printer.type_ == NodeType.PRINTER) {
 			try {
 				if (message_.startsWith("!PS")) {
 					author = network.findText(this, author, "author:", 7);
