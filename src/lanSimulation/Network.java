@@ -263,7 +263,7 @@ public class Network {
 			currentNode = writeAndFindNext(report, currentNode, false);
 		}
 		if (atDestination(currentNode, packet)) {
-			result = packet.printDocument(currentNode, this, report);
+			result = packet.printDocument(currentNode, report);
 		} else {
 			try {
 				report.write(">>> Destinition not found, print job cancelled.\n\n");
@@ -277,31 +277,9 @@ public class Network {
 		return result;
 	}
 
-	public String findText(Packet document, String result, String header, int offset) {
-		int startPos = document.message_.indexOf(header);
-		int endPos;
-		if (startPos >= 0) {
-			endPos = document.message_.indexOf(".", startPos + offset);
-			if (endPos < 0) {
-				endPos = document.message_.length();
-			}
-			result = document.message_.substring(startPos + offset, endPos);
-		}
-		return result;
-	}
-
 	private BaseNode writeAndFindNext(Writer report, BaseNode currentNode, boolean writePacket) {
 		currentNode.write(report, writePacket);
 		return currentNode.nextNode_;
-	}
-
-	public void writeAccounting(Writer report, String author, String title, String job) throws IOException {
-		report.write("\tAccounting -- author = '");
-		report.write(author);
-		report.write("' -- title = '");
-		report.write(title);
-		report.write("'\n");
-		report.write(">>> " + job + " job delivered.\n\n");
 	}
 
 	/**

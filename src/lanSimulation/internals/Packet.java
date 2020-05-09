@@ -22,8 +22,6 @@ package lanSimulation.internals;
 import java.io.IOException;
 import java.io.Writer;
 
-import lanSimulation.Network;
-
 /**
  * A <em>Packet</em> represents a unit of information to be sent over the Local
  * Area Network (LAN).
@@ -58,23 +56,23 @@ public class Packet {
 		destination_ = destination;
 	}
 
-	public boolean printDocument(BaseNode printer, Network network, Writer report) {
+	public boolean printDocument(BaseNode printer, Writer report) {
 		String author = "Unknown";
 		String title = "Untitled";
 	
 		if (printer.getType() == BaseNode.Type.PRINTER) {
 			try {
 				if (message_.startsWith("!PS")) {
-					author = network.findText(this, author, "author:", 7);
-					title = network.findText(this, title, "title:", 6);
-					network.writeAccounting(report, author, title, "Postscript");
+					author = findText(author, "author:", 7);
+					title = findText(title, "title:", 6);
+					writeAccounting(report, author, title, "Postscript");
 					report.flush();
 				} else {
 					title = "ASCII DOCUMENT";
 					if (message_.length() >= 16) {
 						author = message_.substring(8, 16);
 					}
-					network.writeAccounting(report, author, title, "ASCII Print");
+					writeAccounting(report, author, title, "ASCII Print");
 					report.flush();
 				}
 			} catch (IOException exc) {
@@ -90,6 +88,28 @@ public class Packet {
 			}
 			return false;
 		}
+	}
+
+	public void writeAccounting(Writer report, String author, String title, String job) throws IOException {
+		report.write("\tAccounting -- author = '");
+		report.write(author);
+		report.write("' -- title = '");
+		report.write(title);
+		report.write("'\n");
+		report.write(">>> " + job + " job delivered.\n\n");
+	}
+
+	public String findText(String result, String header, int offset) {
+		int startPos = message_.indexOf(header);
+		int endPos;
+		if (startPos >= 0) {
+			endPos = message_.indexOf(".", startPos + offset);
+			if (endPos < 0) {
+				endPos = message_.length();
+			}
+			result = message_.substring(startPos + offset, endPos);
+		}
+		return result;
 	}
 
 }
