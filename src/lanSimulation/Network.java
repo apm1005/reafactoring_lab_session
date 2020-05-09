@@ -215,9 +215,7 @@ public class Network {
 		Node currentNode = firstNode_;
 		Packet packet = new Packet("BROADCAST", firstNode_.name_, firstNode_.name_);
 		do {
-			currentNode.write(report, true);
-			;
-			currentNode = currentNode.nextNode_;
+			currentNode = writeAndFindNext(report, currentNode, true);
 		} while (!packet.destination_.equals(currentNode.name_));
 
 		try {
@@ -274,9 +272,7 @@ public class Network {
 		;
 		currentNode = startNode.nextNode_;
 		while ((!packet.destination_.equals(currentNode.name_)) && (!packet.origin_.equals(currentNode.name_))) {
-			currentNode.write(report, false);
-			;
-			currentNode = currentNode.nextNode_;
+			currentNode = writeAndFindNext(report, currentNode, false);
 		}
 		;
 
@@ -347,6 +343,11 @@ public class Network {
 			result = document.message_.substring(startPos + offset, endPos);
 		}
 		return result;
+	}
+
+	private Node writeAndFindNext(Writer report, Node currentNode, boolean writePacket) {
+		currentNode.write(report, writePacket);
+		return currentNode.nextNode_;
 	}
 
 	private void writeAccounting(Writer report, String author, String title, String job) throws IOException {
