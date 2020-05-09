@@ -44,7 +44,7 @@ public class Network {
 	 * Maps the names of workstations on the actual workstations. Used to initiate
 	 * the requests for the network.
 	 */
-	private Hashtable workstations_;
+	private Hashtable<String, Node> workstations_;
 
 	/**
 	 * Construct a <em>Network</em> suitable for holding #size Workstations.
@@ -57,7 +57,7 @@ public class Network {
 		assert size > 0;
 		initPtr_ = this;
 		firstNode_ = null;
-		workstations_ = new Hashtable(size, 1.0f);
+		workstations_ = new Hashtable<>(size, 1.0f);
 		assert isInitialized();
 		assert !consistentNetwork();
 	}
@@ -134,10 +134,10 @@ public class Network {
 	 */
 	public boolean consistentNetwork() {
 		assert isInitialized();
-		Enumeration iter;
+		Enumeration<Node> iter;
 		Node currentNode;
 		int printersFound = 0, workstationsFound = 0;
-		Hashtable encountered = new Hashtable(workstations_.size() * 2, 1.0f);
+		Hashtable<String, Node> encountered = new Hashtable<>(workstations_.size() * 2, 1.0f);
 
 		if (workstations_.isEmpty()) {
 			return false;
@@ -148,7 +148,7 @@ public class Network {
 		// verify whether all registered workstations are indeed workstations
 		iter = workstations_.elements();
 		while (iter.hasMoreElements()) {
-			currentNode = (Node) iter.nextElement();
+			currentNode = iter.nextElement();
 			if (currentNode.type_ != Node.WORKSTATION) {
 				return false;
 			}
