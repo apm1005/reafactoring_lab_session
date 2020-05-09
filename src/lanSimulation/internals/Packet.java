@@ -19,6 +19,11 @@
  */
 package lanSimulation.internals;
 
+import java.io.IOException;
+import java.io.Writer;
+
+import lanSimulation.Network;
+
 /**
  * A <em>Packet</em> represents a unit of information to be sent over the Local
  * Area Network (LAN).
@@ -51,6 +56,40 @@ public class Packet {
 		message_ = message;
 		origin_ = origin;
 		destination_ = destination;
+	}
+
+	public boolean printDocument(Node printer, Network network, Writer report) {
+		String author = "Unknown";
+		String title = "Untitled";
+	
+		if (printer.type_ == Node.PRINTER) {
+			try {
+				if (message_.startsWith("!PS")) {
+					author = network.findText(this, author, "author:", 7);
+					title = network.findText(this, title, "title:", 6);
+					network.writeAccounting(report, author, title, "Postscript");
+					report.flush();
+				} else {
+					title = "ASCII DOCUMENT";
+					if (message_.length() >= 16) {
+						author = message_.substring(8, 16);
+					}
+					network.writeAccounting(report, author, title, "ASCII Print");
+					report.flush();
+				}
+			} catch (IOException exc) {
+				// just ignore
+			}
+			return true;
+		} else {
+			try {
+				report.write(">>> Destinition is not a printer, print job cancelled.\n\n");
+				report.flush();
+			} catch (IOException exc) {
+				// just ignore
+			}
+			return false;
+		}
 	}
 
 }

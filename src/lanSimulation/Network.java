@@ -263,7 +263,7 @@ public class Network {
 			currentNode = writeAndFindNext(report, currentNode, false);
 		}
 		if (packet.destination_.equals(currentNode.name_)) {
-			result = printDocument(currentNode, packet, report);
+			result = packet.printDocument(currentNode, this, report);
 		} else {
 			try {
 				report.write(">>> Destinition not found, print job cancelled.\n\n");
@@ -277,41 +277,7 @@ public class Network {
 		return result;
 	}
 
-	private boolean printDocument(Node printer, Packet document, Writer report) {
-		String author = "Unknown";
-		String title = "Untitled";
-
-		if (printer.type_ == Node.PRINTER) {
-			try {
-				if (document.message_.startsWith("!PS")) {
-					author = findText(document, author, "author:", 7);
-					title = findText(document, title, "title:", 6);
-					writeAccounting(report, author, title, "Postscript");
-					report.flush();
-				} else {
-					title = "ASCII DOCUMENT";
-					if (document.message_.length() >= 16) {
-						author = document.message_.substring(8, 16);
-					}
-					writeAccounting(report, author, title, "ASCII Print");
-					report.flush();
-				}
-			} catch (IOException exc) {
-				// just ignore
-			}
-			return true;
-		} else {
-			try {
-				report.write(">>> Destinition is not a printer, print job cancelled.\n\n");
-				report.flush();
-			} catch (IOException exc) {
-				// just ignore
-			}
-			return false;
-		}
-	}
-
-	private String findText(Packet document, String result, String header, int offset) {
+	public String findText(Packet document, String result, String header, int offset) {
 		int startPos = document.message_.indexOf(header);
 		int endPos;
 		if (startPos >= 0) {
@@ -329,7 +295,7 @@ public class Network {
 		return currentNode.nextNode_;
 	}
 
-	private void writeAccounting(Writer report, String author, String title, String job) throws IOException {
+	public void writeAccounting(Writer report, String author, String title, String job) throws IOException {
 		report.write("\tAccounting -- author = '");
 		report.write(author);
 		report.write("' -- title = '");
