@@ -59,34 +59,33 @@ public class Packet {
 	public boolean printDocument(BaseNode printer, Writer report) {
 		String author = "Unknown";
 		String title = "Untitled";
-	
-		if (printer.getType() == BaseNode.Type.PRINTER) {
-			try {
-				if (message_.startsWith("!PS")) {
-					author = findText(author, "author:", 7);
-					title = findText(title, "title:", 6);
-					writeAccounting(report, author, title, "Postscript");
-					report.flush();
-				} else {
-					title = "ASCII DOCUMENT";
-					if (message_.length() >= 16) {
-						author = message_.substring(8, 16);
-					}
-					writeAccounting(report, author, title, "ASCII Print");
-					report.flush();
-				}
-			} catch (IOException exc) {
-				// just ignore
-			}
-			return true;
-		} else {
-			try {
+
+		try {
+			if (printer.getType() == BaseNode.Type.PRINTER) {
+				writeToPrinter(report, author, title);
+			} else {
 				report.write(">>> Destinition is not a printer, print job cancelled.\n\n");
 				report.flush();
-			} catch (IOException exc) {
-				// just ignore
 			}
-			return false;
+		} catch (IOException exc) {
+			// just ignore
+		}
+		return printer.getType() == BaseNode.Type.PRINTER;
+	}
+
+	private void writeToPrinter(Writer report, String author, String title) throws IOException {
+		if (message_.startsWith("!PS")) {
+			author = findText(author, "author:", 7);
+			title = findText(title, "title:", 6);
+			writeAccounting(report, author, title, "Postscript");
+			report.flush();
+		} else {
+			title = "ASCII DOCUMENT";
+			if (message_.length() >= 16) {
+				author = message_.substring(8, 16);
+			}
+			writeAccounting(report, author, title, "ASCII Print");
+			report.flush();
 		}
 	}
 
