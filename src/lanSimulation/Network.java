@@ -325,12 +325,7 @@ public class Network {
 	 */
 	public void printOn(StringBuffer buf) {
 		assert isInitialized();
-		Node currentNode = firstNode_;
-		do {
-			currentNode.toHtml(buf);
-			buf.append(" -> ");
-			currentNode = currentNode.nextNode_;
-		} while (currentNode != firstNode_);
+		printAllNodes(buf, true, "", " -> ");
 		buf.append(" ... ");
 	}
 
@@ -343,15 +338,8 @@ public class Network {
 	public void printHTMLOn(StringBuffer buf) {
 		assert isInitialized();
 
-		buf.append("<HTML>\n<HEAD>\n<TITLE>LAN Simulation</TITLE>\n</HEAD>\n<BODY>\n<H1>LAN SIMULATION</H1>");
-		Node currentNode = firstNode_;
-		buf.append("\n\n<UL>");
-		do {
-			buf.append("\n\t<LI> ");
-			currentNode.toHtml(buf);
-			buf.append(" </LI>");
-			currentNode = currentNode.nextNode_;
-		} while (currentNode != firstNode_);
+		buf.append("<HTML>\n<HEAD>\n<TITLE>LAN Simulation</TITLE>\n</HEAD>\n<BODY>\n<H1>LAN SIMULATION</H1>\n\n<UL>");
+		printAllNodes(buf, true, "\n\t<LI> ", " </LI>");
 		buf.append("\n\t<LI>...</LI>\n</UL>\n\n</BODY>\n</HTML>\n");
 	}
 
@@ -364,14 +352,23 @@ public class Network {
 	public void printXMLOn(StringBuffer buf) {
 		assert isInitialized();
 
-		Node currentNode = firstNode_;
 		buf.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n<network>");
+		printAllNodes(buf, false, "\n\t", "");
+		buf.append("\n</network>");
+	}
+
+	private void printAllNodes(StringBuffer buf, boolean isHtml, String lineSeparator, String nodeSeparator) {
+		Node currentNode = firstNode_;
 		do {
-			buf.append("\n\t");
-			currentNode.toXML(buf);
+			buf.append(lineSeparator);
+			if (isHtml) {				
+				currentNode.toHtml(buf);
+			} else {
+				currentNode.toXML(buf);
+			}
+			buf.append(nodeSeparator);
 			currentNode = currentNode.nextNode_;
 		} while (currentNode != firstNode_);
-		buf.append("\n</network>");
 	}
 
 }
