@@ -1,9 +1,16 @@
 package lanSimulation.internals;
 
-public class Printer implements NodeType {
+public class Printer extends NodeType {
 
+	/**
+	 * Construct a <em>Printer</em> with given #name
+	 */
+	public Printer(String name) {
+		name_ = name;
+	}
+	
 	@Override
-	public byte getType() {
-		return NodeType.PRINTER;
+	public Type getType() {
+		return NodeType.Type.PRINTER;
 	}
 }

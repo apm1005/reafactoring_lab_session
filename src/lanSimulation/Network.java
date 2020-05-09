@@ -39,12 +39,12 @@ public class Network {
 	 * Holds a pointer to some "first" node in the token ring. Used to ensure that
 	 * various printing operations return expected behaviour.
 	 */
-	private Node firstNode_;
+	private NodeType firstNode_;
 	/**
 	 * Maps the names of workstations on the actual workstations. Used to initiate
 	 * the requests for the network.
 	 */
-	private Hashtable<String, Node> workstations_;
+	private Hashtable<String, NodeType> workstations_;
 
 	/**
 	 * Construct a <em>Network</em> suitable for holding #size Workstations.
@@ -78,10 +78,10 @@ public class Network {
 	public static Network DefaultExample() {
 		Network network = new Network(2);
 
-		Node wsFilip = new Node(NodeType.WORKSTATION, "Filip");
-		Node n1 = new Node(NodeType.NODE, "n1");
-		Node wsHans = new Node(NodeType.WORKSTATION, "Hans");
-		Node prAndy = new Node(NodeType.PRINTER, "Andy");
+		NodeType wsFilip = new WorkStation("Filip");
+		NodeType n1 = new Node("n1");
+		NodeType wsHans = new WorkStation("Hans");
+		NodeType prAndy = new Printer("Andy");
 
 		wsFilip.nextNode_ = n1;
 		n1.nextNode_ = wsHans;
@@ -119,7 +119,7 @@ public class Network {
 		if (n == null) {
 			return false;
 		} else {
-			return n.type_ == NodeType.WORKSTATION;
+			return n.getType() == NodeType.Type.WORKSTATION;
 		}
 	};
 
@@ -134,10 +134,10 @@ public class Network {
 	 */
 	public boolean consistentNetwork() {
 		assert isInitialized();
-		Enumeration<Node> iter;
-		Node currentNode;
+		Enumeration<NodeType> iter;
+		NodeType currentNode;
 		int printersFound = 0, workstationsFound = 0;
-		Hashtable<String, Node> encountered = new Hashtable<>(workstations_.size() * 2, 1.0f);
+		Hashtable<String, NodeType> encountered = new Hashtable<>(workstations_.size() * 2, 1.0f);
 
 		if (workstations_.isEmpty()) {
 			return false;
@@ -149,7 +149,7 @@ public class Network {
 		iter = workstations_.elements();
 		while (iter.hasMoreElements()) {
 			currentNode = iter.nextElement();
-			if (currentNode.type_ != NodeType.WORKSTATION) {
+			if (currentNode.getType() != NodeType.Type.WORKSTATION) {
 				return false;
 			}
 		}
@@ -158,10 +158,10 @@ public class Network {
 		currentNode = firstNode_;
 		while (!encountered.containsKey(currentNode.name_)) {
 			encountered.put(currentNode.name_, currentNode);
-			if (currentNode.type_ == NodeType.WORKSTATION) {
+			if (currentNode.getType() == NodeType.Type.WORKSTATION) {
 				workstationsFound++;
 			}
-			if (currentNode.type_ == NodeType.PRINTER) {
+			if (currentNode.getType() == NodeType.Type.PRINTER) {
 				printersFound++;
 			}
 			currentNode = send(currentNode);
@@ -204,7 +204,7 @@ public class Network {
 			// just ignore
 		}
 
-		Node currentNode = firstNode_;
+		NodeType currentNode = firstNode_;
 		Packet packet = new Packet("BROADCAST", firstNode_.name_, firstNode_.name_);
 		do {
 			currentNode = writeAndFindNext(report, currentNode, true);
@@ -252,7 +252,7 @@ public class Network {
 			// just ignore
 		}
 		boolean result = false;
-		Node startNode, currentNode;
+		NodeType startNode, currentNode;
 		Packet packet = new Packet(document, workstation, printer);
 
 		startNode = (Node) workstations_.get(workstation);
@@ -290,7 +290,7 @@ public class Network {
 		return result;
 	}
 
-	private Node writeAndFindNext(Writer report, Node currentNode, boolean writePacket) {
+	private NodeType writeAndFindNext(Writer report, NodeType currentNode, boolean writePacket) {
 		currentNode.write(report, writePacket);
 		return currentNode.nextNode_;
 	}
@@ -357,12 +357,12 @@ public class Network {
 		buf.append("\n</network>");
 	}
 
-	public Node send(Node currentNode) {
+	public NodeType send(NodeType currentNode) {
 		currentNode = currentNode.nextNode_;
 		return currentNode;
 	}
 
-	private boolean atDestination(Node currentNode, Packet packet) {
+	private boolean atDestination(NodeType currentNode, Packet packet) {
 		return packet.destination_.equals(currentNode.name_);
 	}
 

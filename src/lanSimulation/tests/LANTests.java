@@ -177,8 +177,8 @@ public class LANTests extends TestCase {
 	public void testBasicNode() {
 		Node node;
 
-		node = new Node(NodeType.NODE, "n");
-		assertEquals("type_", node.type_, NodeType.NODE);
+		node = new Node("n");
+		assertEquals("type_", node.getType(), NodeType.Type.NODE);
 		assertEquals("name_", node.name_, "n");
 		assertEquals("nextNode_", node.nextNode_, null);
 		node.nextNode_ = node;

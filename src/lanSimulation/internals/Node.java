@@ -26,31 +26,14 @@ import java.io.Writer;
  * A <em>Node</em> represents a single Node in a Local Area Network (LAN).
  * Several types of Nodes exist.
  */
-public class Node implements NodeType {
-	/**
-	 * Holds the type of the Node.
-	 */
-	public byte type_;
-	/**
-	 * Holds the name of the Node.
-	 */
-	public String name_;
-	/**
-	 * Holds the next Node in the token ring architecture.
-	 * 
-	 * @see lanSimulation.internals.Node
-	 */
-	public Node nextNode_;
-
+public class Node extends NodeType {
 	/**
 	 * Construct a <em>Node</em> with given #type and #name.
 	 * <p>
 	 * <strong>Precondition:</strong> (type >= NODE) && (type <= PRINTER);
 	 * </p>
 	 */
-	public Node(byte type, String name) {
-		assert (type >= NodeType.NODE) && (type <= NodeType.PRINTER);
-		type_ = type;
+	public Node(String name) {
 		name_ = name;
 		nextNode_ = null;
 	}
@@ -62,91 +45,13 @@ public class Node implements NodeType {
 	 * <strong>Precondition:</strong> (type >= NODE) && (type <= PRINTER);
 	 * </p>
 	 */
-	public Node(byte type, String name, Node nextNode) {
-		assert (type >= NodeType.NODE) && (type <= NodeType.PRINTER);
-		type_ = type;
+	public Node(String name, Node nextNode) {
 		name_ = name;
 		nextNode_ = nextNode;
 	}
 
-	public void write(Writer report, boolean packet) {
-		try {
-			report.write("\tNode '");
-			report.write(name_);
-			if (packet) {
-				report.write("' accepts broadcase packet.\n");
-				report.write("\tNode '");
-				report.write(name_);
-			}
-			report.write("' passes packet on.\n");
-			report.flush();
-		} catch (IOException exc) {
-			// just ignore
-		}
-	}
-
-	public void toHtml(StringBuffer buf) {
-		switch (type_) {
-			case NodeType.NODE:
-				buf.append("Node ");
-				buf.append(name_);
-				buf.append(" [Node]");
-				break;
-			case NodeType.WORKSTATION:
-				buf.append("Workstation ");
-				buf.append(name_);
-				buf.append(" [Workstation]");
-				break;
-			case NodeType.PRINTER:
-				buf.append("Printer ");
-				buf.append(name_);
-				buf.append(" [Printer]");
-				break;
-			default:
-				buf.append("(Unexpected)");
-				break;
-		}
-	}
-
-	public void toXML(StringBuffer buf) {
-		switch (type_) {
-			case NodeType.NODE:
-				buf.append("<node>");
-				buf.append(name_);
-				buf.append("</node>");
-				break;
-			case NodeType.WORKSTATION:
-				buf.append("<workstation>");
-				buf.append(name_);
-				buf.append("</workstation>");
-				break;
-			case NodeType.PRINTER:
-				buf.append("<printer>");
-				buf.append(name_);
-				buf.append("</printer>");
-				break;
-			default:
-				buf.append("<unknown></unknown>");
-				break;
-		}
-	}
-
-	public void printAllNodes(StringBuffer buf, boolean isHtml, String lineSeparator, String nodeSeparator) {
-		Node currentNode = this;
-		do {
-			buf.append(lineSeparator);
-			if (isHtml) {				
-				currentNode.toHtml(buf);
-			} else {
-				currentNode.toXML(buf);
-			}
-			buf.append(nodeSeparator);
-			currentNode = currentNode.nextNode_;
-		} while (currentNode != this);
-	}
-
 	@Override
-	public byte getType() {
-		return NodeType.NODE;
+	public Type getType() {
+		return NodeType.Type.NODE;
 	}
 }

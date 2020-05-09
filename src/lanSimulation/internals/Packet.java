@@ -58,11 +58,11 @@ public class Packet {
 		destination_ = destination;
 	}
 
-	public boolean printDocument(Node printer, Network network, Writer report) {
+	public boolean printDocument(NodeType printer, Network network, Writer report) {
 		String author = "Unknown";
 		String title = "Untitled";
 	
-		if (printer.type_ == NodeType.PRINTER) {
+		if (printer.getType() == NodeType.Type.PRINTER) {
 			try {
 				if (message_.startsWith("!PS")) {
 					author = network.findText(this, author, "author:", 7);
