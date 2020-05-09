@@ -145,4 +145,18 @@ public class Node {
 		}
 	}
 
+	public void printAllNodes(StringBuffer buf, boolean isHtml, String lineSeparator, String nodeSeparator) {
+		Node currentNode = this;
+		do {
+			buf.append(lineSeparator);
+			if (isHtml) {				
+				currentNode.toHtml(buf);
+			} else {
+				currentNode.toXML(buf);
+			}
+			buf.append(nodeSeparator);
+			currentNode = currentNode.nextNode_;
+		} while (currentNode != this);
+	}
+
 }
