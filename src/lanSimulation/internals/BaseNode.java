@@ -3,7 +3,7 @@ package lanSimulation.internals;
 import java.io.IOException;
 import java.io.Writer;
 
-public abstract class NodeType {
+public abstract class BaseNode {
     public enum Type {
         /**
          * A node with type NODE has only basic functionality.
@@ -29,7 +29,7 @@ public abstract class NodeType {
 	 * 
 	 * @see lanSimulation.internals.Node
 	 */
-	public NodeType nextNode_;
+	public BaseNode nextNode_;
 
 	public abstract Type getType();
 	
@@ -80,7 +80,7 @@ public abstract class NodeType {
 	}
 	
 	public void printAllNodes(StringBuffer buf, boolean isHtml, String lineSeparator, String nodeSeparator) {
-		NodeType currentNode = this;
+		BaseNode currentNode = this;
 		do {
 			buf.append(lineSeparator);
 			if (isHtml) {				

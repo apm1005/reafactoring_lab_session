@@ -26,7 +26,7 @@ import java.io.Writer;
  * A <em>Node</em> represents a single Node in a Local Area Network (LAN).
  * Several types of Nodes exist.
  */
-public class Node extends NodeType {
+public class Node extends BaseNode {
 	/**
 	 * Construct a <em>Node</em> with given #type and #name.
 	 * <p>
@@ -52,6 +52,6 @@ public class Node extends NodeType {
 
 	@Override
 	public Type getType() {
-		return NodeType.Type.NODE;
+		return BaseNode.Type.NODE;
 	}
 }

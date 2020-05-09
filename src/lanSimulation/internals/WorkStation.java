@@ -1,6 +1,6 @@
 package lanSimulation.internals;
 
-public class WorkStation extends NodeType {
+public class WorkStation extends BaseNode {
 
 	/**
 	 * Construct a <em>WorkStation</em> with given #name
@@ -11,6 +11,6 @@ public class WorkStation extends NodeType {
 
 	@Override
 	public Type getType() {
-		return NodeType.Type.WORKSTATION;
+		return BaseNode.Type.WORKSTATION;
 	}
 }
