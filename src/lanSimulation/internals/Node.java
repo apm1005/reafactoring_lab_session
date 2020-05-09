@@ -26,7 +26,7 @@ import java.io.Writer;
  * A <em>Node</em> represents a single Node in a Local Area Network (LAN).
  * Several types of Nodes exist.
  */
-public class Node {
+public class Node implements NodeType {
 	/**
 	 * Holds the type of the Node.
 	 */
@@ -145,4 +145,8 @@ public class Node {
 		} while (currentNode != this);
 	}
 
+	@Override
+	public byte getType() {
+		return NodeType.NODE;
+	}
 }

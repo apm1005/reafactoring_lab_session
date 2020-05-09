@@ -16,4 +16,5 @@ public interface NodeType {
 	 */
 	public static final byte PRINTER = 2;
 
+	public byte getType();
 }
